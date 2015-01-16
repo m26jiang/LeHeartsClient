@@ -5,7 +5,7 @@ import java.util.Observer;
 
 public class Player extends Observable implements Observer {
 	// TODO: Add more stuff...
-	//       What things will the Player class be reponsible for?
+	//       What things will the Player class be responsible for?
 	
 	private String userId; // TODO: Used for future features / maybe display
 	private int playerId;
@@ -13,9 +13,9 @@ public class Player extends Observable implements Observer {
 	private Hand hand;
 	private Table table;
 	
-	public Player(Table table, Hand hand) {
+	public Player(Table table, Hand...hand) {
 		this.table = table;
-		this.hand = hand;
+		if(hand.length == 1) this.hand = hand[0];
 		isPlayersTurn = false;
 	}
 
@@ -46,5 +46,13 @@ public class Player extends Observable implements Observer {
 	public void playCard(Card card) {
 		this.hand.removeCard(card);
 		this.table.placeCard(this.playerId, card);
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 }

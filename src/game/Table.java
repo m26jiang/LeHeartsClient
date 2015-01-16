@@ -16,6 +16,7 @@ public class Table extends Observable {
 	
 	public void placeCard(int playerId, Card card) {
 		cards[playerId] = card;
+		// TODO: Some HTTP/Socket request will be made here to the server
 		this.notifyObs();
 	}
 }
