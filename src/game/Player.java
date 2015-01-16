@@ -29,18 +29,13 @@ public class Player extends Observable implements Observer {
 		this.notifyObservers();
 	}
 	
-	public void setPlayerTurn() {
-		isPlayersTurn = true;
+	public void setPlayerTurn(boolean isTurn) {
+		isPlayersTurn = isTurn;
 		notifyObs();
 	}
 	
-	public boolean getIsPlayerTurn() {
+	public boolean isPlayerTurn() {
 		return this.isPlayersTurn;
-	}
-	
-	public void clearPlayerTurn() {
-		isPlayersTurn = false;
-		notifyObs();
 	}
 	
 	public void playCard(Card card) {
