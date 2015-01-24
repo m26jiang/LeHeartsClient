@@ -32,14 +32,14 @@ public class Card {
 	@SuppressWarnings("incomplete-switch")
 	public int getScore() {
 		switch(suit) {
-		case HEART:
+		case H:
 			return rank.getScore();
-		case SPADE:
+		case S:
 			if(rank == Rank.QUEEN) {
 				return -100;
 			}
 			break;
-		case DIAMOND:
+		case D:
 			if(rank == Rank.JACK) {
 				return 100;
 			}

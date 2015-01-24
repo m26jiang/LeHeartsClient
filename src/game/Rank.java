@@ -1,5 +1,8 @@
 package game;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum Rank {
 	TWO(2, 0),
 	THREE(3, 0),
@@ -16,6 +19,17 @@ public enum Rank {
 	ACE(14, -50),
 	SJOKER(15, -60),
 	LJOKER(16, -70);
+	
+	private static final Map<Integer, Rank> intToTypeMap = new HashMap<Integer, Rank>();
+	static {
+	    for (Rank type : Rank.values()) {
+	        intToTypeMap.put(type.value, type);
+	    }
+	}
+
+	public static Rank fromInt(int i) {
+		return intToTypeMap.get(Integer.valueOf(i));
+	}
 	
 	private int value;
 	private int score;

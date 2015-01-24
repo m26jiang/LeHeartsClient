@@ -1,8 +1,8 @@
 package game;
 
 public enum Suit {
-	CLUB,
-	DIAMOND,
-	SPADE,
-	HEART
+	C, // Clubs
+	D, // Diamonds
+	S, // Spades
+	H // Hearts
 }
