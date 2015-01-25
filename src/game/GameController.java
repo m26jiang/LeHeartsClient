@@ -12,7 +12,11 @@ public class GameController {
 	}
 	
 	public void playersTurn() {
-		
+		table.setPlayerTurn(true);
+	}
+	
+	public void endTurn() {
+		table.setPlayerTurn(false);
 	}
 
 	public void dealCard(Card card) {
@@ -21,6 +25,5 @@ public class GameController {
 
 	public void setPlayerId(int playerId) {
 		table.setPlayerId(playerId);
-		
 	}
 }

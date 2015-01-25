@@ -34,4 +34,12 @@ public class Table extends Observable {
 	public void dealCard(Card card) {
 		player.addCard(card);
 	}
+	
+	public void setPlayerTurn(boolean isPlayerTurn) {
+		player.setPlayerTurn(isPlayerTurn);
+	}
+	
+	public boolean isPlayerTurn() {
+		return player.isPlayerTurn();
+	}
 }
