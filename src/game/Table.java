@@ -13,6 +13,10 @@ public class Table extends Observable {
 		player = new Player(new Hand(), new Hand());
 	}
 	
+	public void setPlayerId(int id) {
+		this.playerId = id;
+	}
+	
 	public void notifyObs() {
 		this.setChanged();
 		this.notifyObservers();
@@ -27,7 +31,7 @@ public class Table extends Observable {
 		this.notifyObs();
 	}
 	
-	public void dealCard(int playerId, Card card) {
-		
+	public void dealCard(Card card) {
+		player.addCard(card);
 	}
 }

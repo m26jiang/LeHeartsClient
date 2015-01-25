@@ -14,4 +14,13 @@ public class GameController {
 	public void playersTurn() {
 		
 	}
+
+	public void dealCard(Card card) {
+		table.dealCard(card);
+	}
+
+	public void setPlayerId(int playerId) {
+		table.setPlayerId(playerId);
+		
+	}
 }

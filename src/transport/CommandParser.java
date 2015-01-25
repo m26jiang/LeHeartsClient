@@ -23,6 +23,7 @@ public class CommandParser {
 		}
 		if (op.equals("WELCOME")) {
 			int playerId = Integer.parseInt(ops[1]);
+			game.setPlayerId(playerId);
 		} else if (op.equals("MESSAGE")) {
 			System.out.println(ops[1]);
 		} else if (op.equals("WELCOME")) {
@@ -43,7 +44,13 @@ public class CommandParser {
 		} else if (op.equals("DEALING")) {
 
 		} else if (op.equals("CARD")) {
-
+			String [] temp = ops[1].split(" : ");
+			int rankStr = Integer.parseInt(temp[0]);
+			String suitStr = temp[1];
+			Rank rank = Rank.fromInt(rankStr);
+			Suit suit = Suit.valueOf(suitStr);
+			Card card = new Card(suit, rank);
+			game.dealCard(card);
 		}
 		return true;
 	}

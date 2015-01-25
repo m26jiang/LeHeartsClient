@@ -49,4 +49,8 @@ public class Player extends Observable implements Observer {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	
+	public void addCard(Card card) {
+		hand.insertCard(card);
+	}
 }

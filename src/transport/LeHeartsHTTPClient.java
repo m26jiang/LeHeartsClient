@@ -16,16 +16,16 @@ public class LeHeartsHTTPClient {
 
 	private Socket socket;
 	private BufferedReader input;
-	private BufferedReader stdIn;
-	private PrintWriter output;
+//	private BufferedReader stdIn;
+//	private PrintWriter output;
 	private CommandParser parser;
 
 	public LeHeartsHTTPClient(CommandParser parser, String hostName, int portNumber) throws IOException {
 		this.parser = parser;
 		socket = new Socket(hostName, portNumber);
 		input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		stdIn = new BufferedReader(new InputStreamReader(System.in));
-		output = new PrintWriter(socket.getOutputStream(), true);
+//		stdIn = new BufferedReader(new InputStreamReader(System.in));
+//		output = new PrintWriter(socket.getOutputStream(), true);
 	}
 	
 	public void play() throws Exception {

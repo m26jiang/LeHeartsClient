@@ -1,4 +1,8 @@
-package game;
+package ui;
+
+import game.Card;
+import game.Rank;
+import game.Suit;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
