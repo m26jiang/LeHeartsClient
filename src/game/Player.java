@@ -11,11 +11,11 @@ public class Player extends Observable implements Observer {
 	private int playerId;
 	private boolean isPlayersTurn;
 	private Hand hand;
-	private Table table;
+	private Hand collect;
 	
-	public Player(Table table, Hand...hand) {
-		this.table = table;
-		if(hand.length == 1) this.hand = hand[0];
+	public Player(Hand...hand) {
+		this.hand = hand[0];
+		this.collect = hand[1];
 		isPlayersTurn = false;
 	}
 
@@ -40,7 +40,6 @@ public class Player extends Observable implements Observer {
 	
 	public void playCard(Card card) {
 		this.hand.removeCard(card);
-		this.table.placeCard(this.playerId, card);
 	}
 
 	public String getUserId() {

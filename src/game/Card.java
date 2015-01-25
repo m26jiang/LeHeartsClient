@@ -1,6 +1,6 @@
 package game;
 
-public class Card {
+public class Card implements Comparable<Card> {
 	private Suit suit;
 	private Rank rank;
 	
@@ -45,5 +45,15 @@ public class Card {
 			}
 		}
 		return 0;
+	}
+	
+	@Override
+	public String toString() {
+		return suit.toString() + rank.toString();
+	}
+
+	@Override
+	public int compareTo(Card o) {
+	    return rank.compareTo(o.rank);
 	}
 }

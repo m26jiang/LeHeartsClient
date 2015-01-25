@@ -8,7 +8,10 @@ public class GameController {
 	}
 	
 	public void playerMove(int playerId, Card card) {
-		table.players[playerId].playCard(card);
-		table.placeCard(playerId, card);
+		table.playCard(playerId, card);
+	}
+	
+	public void playersTurn() {
+		
 	}
 }
