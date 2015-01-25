@@ -1,7 +1,6 @@
 package game;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 public class Window extends JFrame {
 
@@ -14,12 +13,4 @@ public class Window extends JFrame {
 		this.setVisible(true);		
 	}
 	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				new Window();
-			}
-		});
-	}
 }
