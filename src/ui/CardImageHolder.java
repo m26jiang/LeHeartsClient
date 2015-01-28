@@ -3,14 +3,12 @@ package ui;
 import game.Card;
 import game.Rank;
 import game.Suit;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
 
 public class CardImageHolder {
@@ -51,17 +49,16 @@ public class CardImageHolder {
 						cardImageMap.put(card, img);
 					}					
 				} catch (IOException e) {
-					
+					System.out.println(e.getMessage());
 				}
 			}
 		}
 	}
 	
-	private Card getCardFromFileName(String fileName) {
+	private Card getCardFromFileName(String fileName) {		
 		
-		System.out.println(fileName);
-		
-		if (fileName.length() < 2) {
+		/** Shortest possible name should be: "xx.png" */
+		if (fileName.length() < 6) {
 			return null;
 		}
 		
@@ -105,7 +102,7 @@ public class CardImageHolder {
 		}
 		
 		if (posTwo == '1') {
-			if (fileName.charAt(3) == '0') {
+			if (fileName.charAt(2) == '0') {
 				rank = Rank.TEN;
 			} else {
 				rank = Rank.ACE;
@@ -113,6 +110,7 @@ public class CardImageHolder {
 		}
 		
 		card = new Card(suit, rank);
+		
 		return card;
 	}
 	
