@@ -20,6 +20,7 @@ public class CardImageHolder {
 	};
 	
 	private Map<Card, BufferedImage> cardImageMap;
+	private BufferedImage faceDownImage;
 	
 	static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 		@Override
@@ -52,6 +53,13 @@ public class CardImageHolder {
 					System.out.println(e.getMessage());
 				}
 			}
+		}
+		
+		try {
+			File f = new File(IMAGE_DIRECTORY + "/" + "b2fv.png");
+			faceDownImage = ImageIO.read(f);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -116,5 +124,9 @@ public class CardImageHolder {
 	
 	public BufferedImage getImage(Card card) {
 		return cardImageMap.get(card);
+	}
+	
+	public BufferedImage faceDownImage() {
+		return this.faceDownImage;
 	}
 }
