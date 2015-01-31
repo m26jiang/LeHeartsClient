@@ -18,4 +18,8 @@ public class Hand {
 	public void removeCard(Card card) {
 		cards.remove(card);
 	}
+	
+	public Set<Card> getCards() {
+		return this.cards;
+	}
 }

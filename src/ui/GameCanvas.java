@@ -1,42 +1,63 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class GameCanvas extends JPanel implements KeyListener, MouseListener {
+import game.Table;
+
+public class GameCanvas extends JPanel implements KeyListener, MouseListener, Observer {
 
 	private CardImageHolder cardImageHolder;
+	private Table table;
 	
-	public GameCanvas() {
+	public GameCanvas(Table table) {
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);
-		this.setBackground(Color.green);
+		this.setBackground(new Color(0x00, 0x8a, 0x2e));
 		this.addKeyListener(this);
-		this.addMouseListener(this);		
+		this.addMouseListener(this);
+		this.table = table;
+		table.addObserver(this);
 		initImages();
 	}
 	
 	private void initImages() {
 		cardImageHolder = new CardImageHolder();
+		
+//		TODO: Clean up this random test code.
+//		Card c1 = new Card(Suit.C, Rank.ACE);
+//		ce1 = new CardEntity(c1, cardImageHolder.getImage(c1));
+//		ce1.setX(100); ce1.setY(100); ce1.setVisible(true);
+//		
+//		Card c2 = new Card(Suit.C, Rank.TWO);		
+//		ce2 = new CardEntity(c2, cardImageHolder.getImage(c2));
+//		ce2.setX(120); ce2.setY(90); ce2.setVisible(true);
+//		
+//		System.out.println(c1.hashCode());
+//		System.out.println(c2.hashCode());
+		
+//		repaint();
 	}
 	
 	public void draw(Graphics2D g2d) {
-		
+
+//		TODO: Clean up this random test code.
+//		if (cardImageHolder.getImage(new Card(Suit.S, Rank.TWO)) == null) {
+//			System.out.println("You fucked up!");
+//		}
+//		
+//		ce1.draw(g2d);
+//		ce2.draw(g2d);
+//		g2d.drawImage(cardImageHolder.getImage(new Card(Suit.S, Rank.TWO)), 0, 0, null);
 	}
 	
 	/** This method is called by the repaint method. */
@@ -63,4 +84,9 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener {
 	public void mouseEntered(MouseEvent e) { }
 	@Override
 	public void mouseExited(MouseEvent e) { }
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+	}
 }

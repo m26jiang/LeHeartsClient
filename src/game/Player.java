@@ -53,4 +53,12 @@ public class Player extends Observable implements Observer {
 	public void addCard(Card card) {
 		hand.insertCard(card);
 	}
+	
+	public Hand getHand() {
+		return this.hand;
+	}
+	
+	public Hand getCollect() {
+		return this.collect;
+	}
 }

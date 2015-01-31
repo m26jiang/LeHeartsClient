@@ -7,16 +7,23 @@ import javax.swing.SwingUtilities;
 
 public class Main {
 
+	private static Table table;
+	private static GameController game;
+	private static CommandParser parser;
+	private static LeHeartsHTTPClient client;
+	private static final String serverIP = "54.149.107.164";
+	private static final int serverPort = 9001;
+	
 	public static void main(String[] args) throws Exception {
-		Table table = new Table();
-		GameController game = new GameController(table);
-		CommandParser parser = new CommandParser(game);
-		LeHeartsHTTPClient client = new LeHeartsHTTPClient(parser, "54.149.107.164", 9001);
+		table = new Table();
+		game = new GameController(table);
+		parser = new CommandParser(game);
+		client = new LeHeartsHTTPClient(parser, serverIP, serverPort);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new Window();
+				new Window(table);				
 			}
 		});
 		
