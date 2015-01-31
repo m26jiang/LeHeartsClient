@@ -3,12 +3,17 @@ package ui;
 import game.Card;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class CardEntity {
 	
 	private int x;
 	private int y;
+	private int width;
+	private int height;
+	private int rotation;
 	private boolean isVisible;
 	private boolean isFaceDown;
 	private BufferedImage image;
@@ -20,6 +25,7 @@ public class CardEntity {
 		this.isVisible = false;
 		this.isFaceDown = false;
 		this.cardValue = null;
+		this.rotation = 0;
 	}
 
 	public CardEntity(Card cardValue, BufferedImage image) {
@@ -29,6 +35,25 @@ public class CardEntity {
 		this.isFaceDown = false;
 		this.cardValue = cardValue;
 		this.image = image;
+		this.width = image.getWidth();
+		this.height = image.getHeight();
+		this.rotation = 0;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 	public int getX() {
@@ -79,7 +104,18 @@ public class CardEntity {
 		this.cardValue = cardValue;
 	}
 	
+	public int getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(int rotation) {
+		this.rotation = rotation;
+	}
+
 	public void draw(Graphics2D g2d) {
-		g2d.drawImage(image, x, y, null);
+		AffineTransform tx = AffineTransform.getQuadrantRotateInstance(
+				rotation, 0, image.getHeight());
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC);
+		g2d.drawImage(op.filter(image, null), x, y, null);
 	}
 }
