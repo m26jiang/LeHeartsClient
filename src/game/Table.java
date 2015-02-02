@@ -4,17 +4,14 @@ import java.util.Observable;
 
 public class Table extends Observable {
 	private Card [] cards;
-	public Player player;
-	
-	private int playerId;
+	public Player [] players;
 	
 	public Table() {
 		cards = new Card[4];
-		player = new Player(new Hand(), new Hand());
-	}
-	
-	public void setPlayerId(int id) {
-		this.playerId = id;
+		players[0] = new HumanPlayer();
+		players[1] = new NetworkPlayer();
+		players[2] = new NetworkPlayer();
+		players[3] = new NetworkPlayer();
 	}
 	
 	public void notifyObs() {
@@ -23,23 +20,21 @@ public class Table extends Observable {
 	}
 	
 	public void playCard(int playerId, Card card) {
-		if (this.playerId == playerId) {
-			player.playCard(card);
-		}
+		players[playerId].playCard(card);
 		cards[playerId] = card;
 		// TODO: Some HTTP/Socket request will be made here to the server
 		this.notifyObs();
 	}
 	
 	public void dealCard(Card card) {
-		player.addCard(card);
+		players[0].addCard(card);
 	}
 	
-	public void setPlayerTurn(boolean isPlayerTurn) {
-		player.setPlayerTurn(isPlayerTurn);
+	public void setPlayerTurn(int playerId, boolean isPlayerTurn) {
+		players[playerId].setPlayerTurn(isPlayerTurn);
 	}
 	
-	public boolean isPlayerTurn() {
-		return player.isPlayerTurn();
+	public boolean isPlayerTurn(int playerId) {
+		return players[playerId].isPlayerTurn();
 	}
 }

@@ -27,8 +27,6 @@ public class CommandParser {
 			game.setPlayerId(playerId);
 		} else if (op.equals("MESSAGE")) {
 			System.out.println(ops[1]);
-		} else if (op.equals("WELCOME")) {
-
 		} else if (op.equals("PLAYER_MOVED")) {
 			String [] temp = ops[1].split(" : ");
 			int playerId = Integer.parseInt(temp[0]) - 1;
@@ -38,7 +36,7 @@ public class CommandParser {
 			if(suit == Suit.H) rankStr += 2; // Accommodate for Jokers in Hearts
 			Rank rank = Rank.fromInt(rankStr);
 			Card card = new Card(suit, rank);
-			game.playerMove(playerId, card);
+			game.playCard(playerId, card);
 		} else if (op.equals("WIN")) {
 
 		} else if (op.equals("LOSE")) {
