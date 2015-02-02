@@ -8,11 +8,10 @@ public abstract class Player extends Observable implements Observer {
 	//       What things will the Player class be responsible for?
 	
 	private String userId; // TODO: Used for future features / maybe display
-	private int playerId;
 	private boolean isPlayersTurn;
 	private Hand collect;
 	
-	public Player(Hand...hand) {
+	public Player() {
 		this.collect = new Hand();
 		isPlayersTurn = false;
 	}

@@ -1,15 +1,8 @@
 package transport;
 
-import game.Card;
-import game.GameController;
-import game.Rank;
-import game.Suit;
-import game.Table;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class LeHeartsHTTPClient {
