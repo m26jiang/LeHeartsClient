@@ -8,6 +8,7 @@ public class Table extends Observable {
 	
 	public Table() {
 		cards = new Card[4];
+		players = new Player[4];
 		players[0] = new HumanPlayer();
 		players[1] = new NetworkPlayer();
 		players[2] = new NetworkPlayer();
