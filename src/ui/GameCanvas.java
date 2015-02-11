@@ -26,7 +26,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 	private Table table;
 	private ArrayList<CardEntity> cards;
 	private Card[] playerHand;
-	private static int baseX = 300, baseY = 600;
+	private static int baseX = 250, baseY = 400;
 	
 	public GameCanvas(Table table) {
 		this.setDoubleBuffered(true);
@@ -46,13 +46,12 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 		
 		cardImageHolder = new CardImageHolder();
 		
-//		TODO: Clean up this random test code.
 		// Get all cards from player's hand and throw it into cards
 
 		for (int i = 0; i < playerHand.length; i++) {
 			if (playerHand[i] == null) {
 				continue;
-			} else {
+			} else if (playerHand[i].getSuit() != null && playerHand[i].getRank() != null){
 				Card newCard = new Card(playerHand[i].getSuit(), playerHand[i].getRank());
 				CardEntity newEntity = new CardEntity(newCard, cardImageHolder.getImage(newCard));
 				this.cards.add(newEntity);
@@ -66,9 +65,6 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 			this.cards.get(i).setY(baseY);
 			this.cards.get(i).setVisible(true);
 		}
-
-//		System.out.println(c1.hashCode());
-//		System.out.println(c2.hashCode());
 		
 		repaint();
 	}
@@ -79,10 +75,11 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 		if (cardImageHolder.getImage(new Card(Suit.S, Rank.TWO)) == null) {
 			System.out.println("You fucked up!");
 		}
+
 		for (int i = 0; i < cards.size(); i++) {
-			this.cards.get(i).draw(g2d);
+			cards.get(i).draw(g2d);
+//			g2d.drawImage(cardImageHolder.getImage(this.cards.get(i).getCardValue()), baseX + i*20, baseY, null);
 		}
-//		g2d.drawImage(cardImageHolder.getImage(new Card(Suit.S, Rank.TWO)), 0, 0, null);
 	}
 	
 	/** This method is called by the repaint method. */

@@ -29,6 +29,7 @@ public class Table extends Observable {
 	
 	public void dealCard(Card card) {
 		players[0].addCard(card);
+		this.notifyObs();
 	}
 	
 	public void setPlayerTurn(int playerId, boolean isPlayerTurn) {
