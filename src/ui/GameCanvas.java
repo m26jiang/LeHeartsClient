@@ -7,17 +7,26 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
+import game.Card;
+import game.Hand;
+import game.Rank;
+import game.Suit;
 import game.Table;
 
 public class GameCanvas extends JPanel implements KeyListener, MouseListener, Observer {
 
 	private CardImageHolder cardImageHolder;
 	private Table table;
+	private ArrayList<CardEntity> cards;
+	private Card[] playerHand;
+	private static int baseX = 300, baseY = 600;
 	
 	public GameCanvas(Table table) {
 		this.setDoubleBuffered(true);
@@ -26,37 +35,53 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.table = table;
+		this.cards = new ArrayList<CardEntity>();
+		this.playerHand = new Card[13];
+		this.playerHand = this.table.players[0].getHand().getCards().toArray(playerHand);
 		table.addObserver(this);
 		initImages();
 	}
 	
 	private void initImages() {
+		
 		cardImageHolder = new CardImageHolder();
 		
 //		TODO: Clean up this random test code.
-//		Card c1 = new Card(Suit.C, Rank.ACE);
-//		ce1 = new CardEntity(c1, cardImageHolder.getImage(c1));
-//		ce1.setX(100); ce1.setY(100); ce1.setVisible(true);
-//		
-//		Card c2 = new Card(Suit.C, Rank.TWO);		
-//		ce2 = new CardEntity(c2, cardImageHolder.getImage(c2));
-//		ce2.setX(120); ce2.setY(90); ce2.setVisible(true);
-//		
+		// Get all cards from player's hand and throw it into cards
+
+		for (int i = 0; i < playerHand.length; i++) {
+			if (playerHand[i] == null) {
+				continue;
+			} else {
+				Card newCard = new Card(playerHand[i].getSuit(), playerHand[i].getRank());
+				CardEntity newEntity = new CardEntity(newCard, cardImageHolder.getImage(newCard));
+				this.cards.add(newEntity);
+			}
+		}
+		
+		// sort them by suit? server or client...
+		// This loop just sets the position and visibility
+		for (int i = 0; i < cards.size(); i++) {
+			this.cards.get(i).setX(baseX + (i * 20));
+			this.cards.get(i).setY(baseY);
+			this.cards.get(i).setVisible(true);
+		}
+
 //		System.out.println(c1.hashCode());
 //		System.out.println(c2.hashCode());
 		
-//		repaint();
+		repaint();
 	}
 	
 	public void draw(Graphics2D g2d) {
 
 //		TODO: Clean up this random test code.
-//		if (cardImageHolder.getImage(new Card(Suit.S, Rank.TWO)) == null) {
-//			System.out.println("You fucked up!");
-//		}
-//		
-//		ce1.draw(g2d);
-//		ce2.draw(g2d);
+		if (cardImageHolder.getImage(new Card(Suit.S, Rank.TWO)) == null) {
+			System.out.println("You fucked up!");
+		}
+		for (int i = 0; i < cards.size(); i++) {
+			this.cards.get(i).draw(g2d);
+		}
 //		g2d.drawImage(cardImageHolder.getImage(new Card(Suit.S, Rank.TWO)), 0, 0, null);
 	}
 	
