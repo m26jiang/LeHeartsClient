@@ -42,6 +42,6 @@ public class GameController {
 	}
 	
 	private int serverIdToClientId(int serverPlayerId) {
-		return ((serverPlayerId + playerId) % NUM_PLAYERS)+1;
+		return ((serverPlayerId + playerId) % NUM_PLAYERS);
 	}
 }
