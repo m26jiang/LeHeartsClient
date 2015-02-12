@@ -26,7 +26,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 	private Table table;
 	private ArrayList<CardEntity> cards;
 	private Card[] playerHand;
-	private static int baseX = 250, baseY = 400;
+	private final static int BASE_X = 250, BASE_Y = 400;
 	
 	public GameCanvas(Table table) {
 		this.setDoubleBuffered(true);
@@ -46,7 +46,8 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 		
 		cardImageHolder = new CardImageHolder();
 		
-		// Get all cards from player's hand and throw it into cards
+		// TODO: Consider doing this without the cardlist of entities
+		// Get all cards from player's hand and throw it into card entities
 
 		for (int i = 0; i < playerHand.length; i++) {
 			if (playerHand[i] == null) {
@@ -58,11 +59,10 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 			}
 		}
 		
-		// sort them by suit? server or client...
 		// This loop just sets the position and visibility
 		for (int i = 0; i < cards.size(); i++) {
-			this.cards.get(i).setX(baseX + (i * 20));
-			this.cards.get(i).setY(baseY);
+			this.cards.get(i).setX(BASE_X + (i * 20));
+			this.cards.get(i).setY(BASE_Y);
 			this.cards.get(i).setVisible(true);
 		}
 		
@@ -78,7 +78,6 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 
 		for (int i = 0; i < cards.size(); i++) {
 			cards.get(i).draw(g2d);
-//			g2d.drawImage(cardImageHolder.getImage(this.cards.get(i).getCardValue()), baseX + i*20, baseY, null);
 		}
 	}
 	

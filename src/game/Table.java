@@ -33,7 +33,7 @@ public class Table extends Observable {
 	}
 	
 	public void setPlayerTurn(int playerId, boolean isPlayerTurn) {
-		players[playerId-1].setPlayerTurn(isPlayerTurn);
+		players[playerId].setPlayerTurn(isPlayerTurn);
 	}
 	
 	public boolean isPlayerTurn(int playerId) {

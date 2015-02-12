@@ -11,7 +11,7 @@ public class GameController {
 	}
 	
 	public void setPlayerId(int id) {
-		this.playerId = id;
+		this.playerId = id-1;
 	}
 	
 	public void playCard(int serverId, Card card) {
