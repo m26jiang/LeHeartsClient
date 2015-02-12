@@ -89,6 +89,20 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 		draw(g2d);
 	}
 	
+	private void setYCoordinates(int index) {
+		
+		for (int i = 0; i < cards.size(); i++) {
+			if (cards.get(i).getY() != BASE_Y && i != index) {
+				// Resets position if something else is selected
+				cards.get(i).setY(BASE_Y);
+			} else if (i == index  && cards.get(i).getY() != BASE_Y) {
+				// PLAY CARD SELECTED HERE? MOVE TO TABLE AND DO REQUEST TO SERVER
+			} else if (i == index && cards.get(i).getY() == BASE_Y) {
+				// move card up to let user know it's been selected
+				cards.get(index).setY(BASE_Y - 10);
+			}
+		}
+	}
 	@Override
 	public void keyPressed(KeyEvent e) { }	
 	@Override
@@ -98,10 +112,11 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 	@Override
 	public void mouseClicked(MouseEvent e) { 
 		if (e.getX() > BASE_X && e.getX() < BASE_X + cards.size() * 20 && e.getY() > BASE_Y && e.getY() < BASE_Y + 100) {
-			CardEntity clickedCard = cards.get((e.getX() - BASE_X)  / 20);
-			System.out.println("Clicked CARD: " + clickedCard.getCardValue().getSuit() + " : " + clickedCard.getCardValue().getRank());
-			
+			setYCoordinates((e.getX() - BASE_X)  / 20);
+		} else if (e.getX() > BASE_X + cards.size() * 20 && e.getX() < BASE_X + cards.size() * 20 + 80 && e.getY() > BASE_Y && e.getY() < BASE_Y + 100) {
+			setYCoordinates(cards.size() - 1);
 		}
+		repaint();
 	}
 	@Override
 	public void mousePressed(MouseEvent e) { }
