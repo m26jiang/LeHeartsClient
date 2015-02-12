@@ -16,15 +16,15 @@ public class CommandParser {
 		String [] ops = command.split(" ", 2);
 		System.out.println(command);
 		String op = ops[0];
-		if (op.equals("YOUR_TURN")) {
+		if (op.equals("WELCOME")) {
+			int playerId = Integer.parseInt(ops[1]);
+			game.setPlayerId(playerId);
+		} else if (op.equals("YOUR_TURN")) {
 			System.out.println("Server is requesting move!");
 			game.playersTurn();
 		} else if (op.equals("VALID_MOVE")) {
 			System.out.println("End Turn");
 			game.endTurn();
-		} else if (op.equals("WELCOME")) {
-			int playerId = Integer.parseInt(ops[1]);
-			game.setPlayerId(playerId);
 		} else if (op.equals("MESSAGE")) {
 			System.out.println(ops[1]);
 		} else if (op.equals("PLAYER_MOVED")) {

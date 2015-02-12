@@ -26,7 +26,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 	private Table table;
 	private ArrayList<CardEntity> cards;
 	private Card[] playerHand;
-	private final static int BASE_X = 250, BASE_Y = 400;
+	private final static int BASE_X = 250, BASE_Y = 500;
 	
 	public GameCanvas(Table table) {
 		this.setDoubleBuffered(true);
@@ -96,7 +96,13 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 	@Override
 	public void keyTyped(KeyEvent e) { }
 	@Override
-	public void mouseClicked(MouseEvent e) { }
+	public void mouseClicked(MouseEvent e) { 
+		if (e.getX() > BASE_X && e.getX() < BASE_X + cards.size() * 20 && e.getY() > BASE_Y && e.getY() < BASE_Y + 100) {
+			CardEntity clickedCard = cards.get((e.getX() - BASE_X)  / 20);
+			System.out.println("Clicked CARD: " + clickedCard.getCardValue().getSuit() + " : " + clickedCard.getCardValue().getRank());
+			
+		}
+	}
 	@Override
 	public void mousePressed(MouseEvent e) { }
 	@Override

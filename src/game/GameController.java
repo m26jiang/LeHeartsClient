@@ -10,8 +10,9 @@ public class GameController {
 		this.table = table;
 	}
 	
-	public void setPlayerId(int id) {
-		this.playerId = id;
+	public void setPlayerId(int serverId) {
+		int playerId = serverIdToClientId(serverId);
+		this.playerId = playerId;
 	}
 	
 	public void playCard(int serverId, Card card) {
