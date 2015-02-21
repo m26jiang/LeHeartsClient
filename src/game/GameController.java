@@ -1,8 +1,11 @@
 package game;
 
+import transport.LeHeartsHTTPClient;
+
 public class GameController {
 	private Table table;
 	private int playerId;
+	private LeHeartsHTTPClient client;
 	
 	private final int NUM_PLAYERS = 4;
 	
@@ -18,6 +21,7 @@ public class GameController {
 	public void playCard(int serverId, Card card) {
 		int playerId = serverIdToClientId(serverId);
 		table.playCard(playerId, card);
+		client.setBuffer("MOVE " + card.toString());
 	}
 	
 	public void playersTurn() {
@@ -44,5 +48,9 @@ public class GameController {
 	
 	private int serverIdToClientId(int serverPlayerId) {
 		return ((serverPlayerId + playerId) % NUM_PLAYERS);
+	}
+
+	public void setHttpClient(LeHeartsHTTPClient client) {
+		this.client = client;
 	}
 }
