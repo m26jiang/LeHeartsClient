@@ -45,16 +45,30 @@ public class CardStackEntity implements Observer {
 		synchronized(cards) {
 			int x = e.getX();
 			int y = e.getY();
+			boolean cardSelected = false;
 			
 			System.out.println("MouseEvent: X: " + x + " Y: " + y);
 			
 			for (int index = cards.size() - 1; index >= 0; index--) {
+				if (cards.get(index).isSelected()) {
+					cardSelected = true;
+					break;
+				}				
+			}
+			
+			for (int index = cards.size() - 1; index >= 0; index--) {
 				CardEntity cardEntity = cards.get(index);
 				if (cardEntity.collides(x, y) && cardEntity.isVisible()) {
-					cardEntity.select();
-					return cardEntity;
+					if (cardSelected == false) {
+						cardEntity.select();
+						break;
+					} else if (cardSelected == true && cardEntity.isSelected()) {
+						cardEntity.select();
+						break;
+					}
 				}
-			}
+			}		
+			
 		}		
 		return null;
 	}
