@@ -29,6 +29,7 @@ public class LeHeartsHTTPClient {
 				
 				if (outputBuffer != null) {
 					output.println(outputBuffer);
+					outputBuffer = null;
 				}
 
 				if (response == null) {
@@ -44,16 +45,7 @@ public class LeHeartsHTTPClient {
 		}
 	}
 	
-	private String readBuffer() {
-		String copy = outputBuffer;
-		outputBuffer = null;
-		return copy;
-	}
-	
 	public void setBuffer(String buf) {
-		if (outputBuffer != null) {
-			System.err.println("Probably shouldn't wipe previous command but hey");
-		}
 		outputBuffer = buf;
 	}
 }
