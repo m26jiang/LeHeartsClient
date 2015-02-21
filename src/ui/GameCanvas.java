@@ -28,6 +28,12 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 	private Card[] playerHand;
 	private final static int BASE_X = 250, BASE_Y = 500;
 	
+	private final static long secInNanosec = 1000000000L;
+	private final static long millisecInNanosec = 1000000L;
+	private final static int GAME_FPS = 30;
+	private final static long GAME_UPDATE_PERIOD = secInNanosec / GAME_FPS;	
+	private final static int GAME_THREAD_SLEEP_MIN = 10;
+	
 	public GameCanvas(Table table) {
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);
@@ -40,6 +46,35 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 		this.playerHand = this.table.players[0].getHand().getCards().toArray(playerHand);
 		table.addObserver(this);
 		initImages();
+		
+		gameLoop();
+	}
+	
+	/**
+	 * In specific intervals of (GAME_UPDATE_PERIOD) the game logic is updated
+	 * and the Canvas will be redrawn.
+	 */
+	private void gameLoop() {
+		long beginTime, timeTaken, timeLeft;
+		
+		while (true) {
+			beginTime = System.nanoTime();
+			
+			repaint();
+			
+			timeTaken = System.nanoTime() - beginTime;
+			timeLeft = (GAME_UPDATE_PERIOD - timeTaken) / millisecInNanosec;
+			
+			// If the time is less than 10 milliseconds, then we will put the
+			// the thread to sleep for 10 milliseconds so other threads have
+			// have time to run.
+			if (timeLeft < GAME_THREAD_SLEEP_MIN) {
+				timeLeft = GAME_THREAD_SLEEP_MIN;
+			}
+			try {
+				Thread.sleep(timeLeft);
+			} catch (InterruptedException ex) { }
+		}
 	}
 	
 	private void initImages() {
@@ -69,7 +104,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 		repaint();
 	}
 	
-	public void draw(Graphics2D g2d) {
+	public void draw(Graphics2D g2d) {		
 
 //		TODO: Clean up this random test code.
 		if (cardImageHolder.getImage(new Card(Suit.S, Rank.TWO)) == null) {
@@ -130,5 +165,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener, Ob
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
+		System.out.println("Object has changed: " + o.getClass().getName());
+		repaint();
 	}
 }
