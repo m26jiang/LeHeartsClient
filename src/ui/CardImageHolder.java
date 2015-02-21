@@ -92,6 +92,8 @@ public class CardImageHolder {
 		case 's':
 			suit = Suit.S;
 			break;
+		case 'j':
+			suit = Suit.H;
 		}
 		
 		switch (posTwo) {
@@ -102,7 +104,14 @@ public class CardImageHolder {
 			rank = Rank.QUEEN;
 			break;
 		case 'k':
-			rank = Rank.KING;			
+			rank = Rank.KING;
+			break;
+		case 'r':
+			rank = Rank.LJOKER;
+			break;
+		case 'b':
+			rank = Rank.SJOKER;
+			break;
 		}
 		
 		if (posTwo >= '2' && posTwo <= '9') {
