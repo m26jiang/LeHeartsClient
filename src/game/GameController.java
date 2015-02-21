@@ -24,7 +24,7 @@ public class GameController {
 		table.playCard(playerId, card);
 	}
 	
-	public boolean playerCard(Card card) {
+	public boolean playCard(Card card) {
 		if (cardPending != null) return false;
 		client.setBuffer("MOVE " + card.toString());
 		cardPending = null;
