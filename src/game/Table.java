@@ -34,6 +34,7 @@ public class Table extends Observable {
 	
 	public void setPlayerTurn(int playerId, boolean isPlayerTurn) {
 		players[playerId].setPlayerTurn(isPlayerTurn);
+		this.notifyObs();
 	}
 	
 	public boolean isPlayerTurn(int playerId) {

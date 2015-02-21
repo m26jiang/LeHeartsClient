@@ -8,17 +8,21 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class CardEntity {
-	
+
 	private int x;
 	private int y;
 	private int width;
 	private int height;
 	private int rotation;
+	private boolean isSelected;
+
 	private boolean isVisible;
 	private boolean isFaceDown;
 	private BufferedImage image;
 	private Card cardValue;
 	
+	private static final int CARD_SELECT_Y_MOVE = 20;
+
 	public CardEntity() {
 		this.x = 0;
 		this.y = 0;
@@ -38,6 +42,20 @@ public class CardEntity {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 		this.rotation = 0;
+	}
+	
+	public boolean isSelected() {
+		return isSelected;
+	}
+
+	public void select() {
+		isSelected = !isSelected;
+		
+		if (isSelected) {
+			y -= CARD_SELECT_Y_MOVE;
+		} else {
+			y += CARD_SELECT_Y_MOVE;
+		}
 	}
 
 	public int getWidth() {
@@ -103,7 +121,7 @@ public class CardEntity {
 	public void setCardValue(Card cardValue) {
 		this.cardValue = cardValue;
 	}
-	
+
 	public int getRotation() {
 		return rotation;
 	}
@@ -115,7 +133,17 @@ public class CardEntity {
 	public void draw(Graphics2D g2d) {
 		AffineTransform tx = AffineTransform.getQuadrantRotateInstance(
 				rotation, 0, image.getHeight());
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BICUBIC);
+		AffineTransformOp op = new AffineTransformOp(tx,
+				AffineTransformOp.TYPE_BICUBIC);
 		g2d.drawImage(op.filter(image, null), x, y, null);
+	}
+
+	public boolean collides(int x, int y) {
+		if (x >= this.x && x <= (this.x + width) && y >= this.y
+				&& y <= (this.y + height)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

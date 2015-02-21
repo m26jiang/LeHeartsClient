@@ -1,5 +1,6 @@
 package game;
 
+import java.util.Collections;
 import java.util.Observable;
 import java.util.Set;
 import java.util.TreeSet;
@@ -9,7 +10,7 @@ public class Hand extends Observable {
 	private Set<Card> cards;
 	
 	public Hand() {
-		cards = new TreeSet<Card>();
+		cards = Collections.synchronizedSet(new TreeSet<Card>());
 	}
 	
 	public void insertCard(Card card) {
