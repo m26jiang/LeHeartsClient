@@ -27,7 +27,6 @@ public class GameController {
 	public boolean playCard(Card card) {
 		if (cardPending != null) return false;
 		client.setBuffer("MOVE " + card.toString());
-		cardPending = null;
 		return true;
 	}
 	
@@ -42,6 +41,8 @@ public class GameController {
 	
 	public void endTurn() {
 		table.setPlayerTurn(playerId, false);
+		table.playCard(0, cardPending);
+		cardPending = null;
 	}
 	
 	public void endTurn(int serverId) {
