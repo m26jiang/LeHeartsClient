@@ -26,7 +26,7 @@ public class Card implements Comparable<Card> {
 	}
 	
 	public int getValue() {
-		return rank.getValue();
+		return (suit == Suit.H) ? rank.getValue() - 2 : rank.getValue();
 	}
 	
 	@SuppressWarnings("incomplete-switch")
