@@ -19,6 +19,7 @@ import java.util.Set;
 import javax.swing.JPanel;
 
 import game.Card;
+import game.GameController;
 import game.Hand;
 import game.Player;
 import game.Rank;
@@ -30,9 +31,14 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 
 	private CardImageHolder cardImageHolder;
 	private CardStackEntity playerCards;
+	private CardStackEntity[] collectedCards;
+	private GameController gameController;
 	private Map<Card, CardEntity> cardEntityMap;
 	private Table table;
 	private final static int BASE_X = 250, BASE_Y = 400;
+	private final static int PLAYER_2_X = 50, PLAYER_2_Y = 50;
+	private final static int PLAYER_3_X = 250, PLAYER_3_Y = 50;
+	private final static int PLAYER_4_X = 500, PLAYER_4_Y = 50;
 
 	private final static long secInNanosec = 1000000000L;
 	private final static long millisecInNanosec = 1000000L;
@@ -40,19 +46,44 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private final static long GAME_UPDATE_PERIOD = secInNanosec / GAME_FPS;
 	private final static int GAME_THREAD_SLEEP_MIN = 10;
 
-	public GameCanvas(Table table) {
+	public GameCanvas(Table table, GameController gameController) {
 		this.setDoubleBuffered(true);
 		this.setFocusable(true);
 		this.setBackground(new Color(0x00, 0x8a, 0x2e));
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.table = table;
+		this.gameController = gameController;
 		this.cardEntityMap = new HashMap<Card, CardEntity>();
 		table.addObserver(this);
 		initImages();
 		initCardEntities();
 		this.playerCards = new CardStackEntity(table.players[0].getHand(),
 				cardEntityMap, BASE_X, BASE_Y);
+		playerCards.setClickable(true);
+		collectedCards = new CardStackEntity[4];
+		playerCards.setXSpacing(20);
+		playerCards.setGameController(gameController);
+
+		this.collectedCards[0] = new CardStackEntity(
+				table.players[0].getCollect(), cardEntityMap, BASE_X,
+				BASE_Y - 100);
+		collectedCards[0].setXSpacing(20);
+		
+		this.collectedCards[1] = new CardStackEntity(
+				table.players[1].getCollect(), cardEntityMap, PLAYER_2_X,
+				PLAYER_2_Y);
+		collectedCards[0].setYSpacing(20);
+		
+		this.collectedCards[2] = new CardStackEntity(
+				table.players[2].getCollect(), cardEntityMap, PLAYER_3_X,
+				PLAYER_3_Y);
+		collectedCards[0].setXSpacing(20);
+		
+		this.collectedCards[3] = new CardStackEntity(
+				table.players[3].getCollect(), cardEntityMap, PLAYER_4_X,
+				PLAYER_4_Y);
+		collectedCards[0].setYSpacing(20);		
 
 		Thread gameThread = new Thread() {
 			@Override
