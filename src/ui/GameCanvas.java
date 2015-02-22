@@ -50,10 +50,10 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private final static int PLAYER_3_X = 250, PLAYER_3_Y = 50;
 	private final static int PLAYER_4_X = 500, PLAYER_4_Y = 50;
 
-	private final static long secInNanosec = 1000000000L;
-	private final static long millisecInNanosec = 1000000L;
+	private final static long SEC_IN_NANOSEC = 1000000000L;
+	private final static long MILLISEC_IN_NANOSEC = 1000000L;
 	private final static int GAME_FPS = 30;
-	private final static long GAME_UPDATE_PERIOD = secInNanosec / GAME_FPS;
+	private final static long GAME_UPDATE_PERIOD = SEC_IN_NANOSEC / GAME_FPS;
 	private final static int GAME_THREAD_SLEEP_MIN = 10;
 
 	public GameCanvas(Table table, GameController gameController) {
@@ -143,7 +143,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 			repaint();
 
 			timeTaken = System.nanoTime() - beginTime;
-			timeLeft = (GAME_UPDATE_PERIOD - timeTaken) / millisecInNanosec;
+			timeLeft = (GAME_UPDATE_PERIOD - timeTaken) / MILLISEC_IN_NANOSEC;
 
 			// If the time is less than 10 milliseconds, then we will put the
 			// the thread to sleep for 10 milliseconds so other threads have
@@ -194,6 +194,10 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 
 	public void draw(Graphics2D g2d) {
 		playerCards.draw(g2d);
+		collectedCards[0].draw(g2d);
+		collectedCards[1].draw(g2d);
+		collectedCards[2].draw(g2d);
+		collectedCards[3].draw(g2d);
 	}
 
 	/** This method is called by the repaint method. */
