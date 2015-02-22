@@ -16,15 +16,15 @@ public class Main {
 	
 	public static void main(String[] args) throws Exception {
 		table = new Table();
-
+		game = new GameController(table);
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new Window(table);				
+				new Window(table, game);				
 			}
-		});
+		});		
 		
-		game = new GameController(table);
 		parser = new CommandParser(game);
 		client = new LeHeartsHTTPClient(parser, serverIP, serverPort);
 		game.setHttpClient(client);
