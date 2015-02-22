@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import ui.GameCanvas;
+
 public class LeHeartsHTTPClient {
 
 	private Socket socket;
@@ -13,6 +15,7 @@ public class LeHeartsHTTPClient {
 	private PrintWriter output;
 	private CommandParser parser;
 	private String outputBuffer;
+	private GameCanvas gameCanvas;
 
 	public LeHeartsHTTPClient(CommandParser parser, String hostName, int portNumber) throws IOException {
 		this.parser = parser;
@@ -25,7 +28,14 @@ public class LeHeartsHTTPClient {
 		String response;
 		try {   
 			while (true) {
-				response = input.readLine();
+				if (input.ready()) {
+					response = input.readLine();
+					if (gameCanvas != null) {
+						gameCanvas.outputText(response);
+					}					
+				} else {
+					response = null;
+				}
 				
 				if (outputBuffer != null) {
 					output.println(outputBuffer);
@@ -40,12 +50,21 @@ public class LeHeartsHTTPClient {
 					break;
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			socket.close();
 		}
 	}
 	
+	public void setGameCanvas(GameCanvas gameCanvas) {
+		this.gameCanvas = gameCanvas;
+	}
+	
 	public void setBuffer(String buf) {
+		if (gameCanvas != null) {
+			gameCanvas.outputText(buf);
+		}
 		outputBuffer = buf;
 	}
 }

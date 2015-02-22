@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -16,8 +18,13 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.Border;
 
+import transport.LeHeartsHTTPClient;
 import game.Card;
 import game.GameController;
 import game.Hand;
@@ -35,6 +42,9 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private GameController gameController;
 	private Map<Card, CardEntity> cardEntityMap;
 	private Table table;
+
+	private JTextArea textArea;
+
 	private final static int BASE_X = 250, BASE_Y = 400;
 	private final static int PLAYER_2_X = 50, PLAYER_2_Y = 50;
 	private final static int PLAYER_3_X = 250, PLAYER_3_Y = 50;
@@ -47,17 +57,17 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private final static int GAME_THREAD_SLEEP_MIN = 10;
 
 	public GameCanvas(Table table, GameController gameController) {
-		this.setDoubleBuffered(true);
-		this.setFocusable(true);
-		this.setBackground(new Color(0x00, 0x8a, 0x2e));
-		this.addKeyListener(this);
-		this.addMouseListener(this);
+
+		initPanel();
+
 		this.table = table;
+		this.table.addObserver(this);
 		this.gameController = gameController;
 		this.cardEntityMap = new HashMap<Card, CardEntity>();
-		table.addObserver(this);
+
 		initImages();
 		initCardEntities();
+
 		this.playerCards = new CardStackEntity(table.players[0].getHand(),
 				cardEntityMap, BASE_X, BASE_Y);
 		playerCards.setClickable(true);
@@ -69,21 +79,21 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 				table.players[0].getCollect(), cardEntityMap, BASE_X,
 				BASE_Y - 100);
 		collectedCards[0].setXSpacing(20);
-		
+
 		this.collectedCards[1] = new CardStackEntity(
 				table.players[1].getCollect(), cardEntityMap, PLAYER_2_X,
 				PLAYER_2_Y);
 		collectedCards[0].setYSpacing(20);
-		
+
 		this.collectedCards[2] = new CardStackEntity(
 				table.players[2].getCollect(), cardEntityMap, PLAYER_3_X,
 				PLAYER_3_Y);
 		collectedCards[0].setXSpacing(20);
-		
+
 		this.collectedCards[3] = new CardStackEntity(
 				table.players[3].getCollect(), cardEntityMap, PLAYER_4_X,
 				PLAYER_4_Y);
-		collectedCards[0].setYSpacing(20);		
+		collectedCards[0].setYSpacing(20);
 
 		Thread gameThread = new Thread() {
 			@Override
@@ -93,6 +103,31 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		};
 
 		gameThread.start();
+	}
+
+	private void initPanel() {
+		this.setDoubleBuffered(true);
+		this.setFocusable(true);
+		this.setBackground(new Color(0x00, 0x8a, 0x2e));
+		this.addKeyListener(this);
+		this.addMouseListener(this);
+		this.textArea = new JTextArea(5, 100) {
+			@Override public void setBorder(Border border) {
+				// Do nothing
+			}
+		};
+		JScrollPane jsp = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER) {
+			@Override public void setBorder(Border border) {
+				// Do nothing
+			}
+		};		
+		jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(jsp);
+		Font font = new Font("Consolas", Font.PLAIN, 11);
+		textArea.setFont(font);
+		textArea.setBackground(Color.BLACK);
+		textArea.setForeground(Color.WHITE);
+		textArea.setCaretColor(Color.WHITE);
 	}
 
 	/**
@@ -204,6 +239,10 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 
 	@Override
 	public void update(Observable o, Object arg) {
-		repaint();
+	}
+
+	public void outputText(String s) {
+		textArea.append(s + "\n");
+		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
 }

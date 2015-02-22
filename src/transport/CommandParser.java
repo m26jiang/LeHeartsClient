@@ -21,7 +21,8 @@ public class CommandParser {
 			game.setPlayerId(playerId);
 		} else if (op.equals("YOUR_TURN")) {
 			System.out.println("Server is requesting move!");
-			game.playersTurn();
+			return true;
+			// game.playersTurn();
 		} else if (op.equals("VALID_MOVE")) {
 			System.out.println("End Turn");
 			game.endTurn();
@@ -52,7 +53,7 @@ public class CommandParser {
 			Rank rank = Rank.fromInt(rankStr);
 			Card card = new Card(suit, rank);
 			game.dealCard(card);
-		}
+		}		
 		return true;
 	}
 }

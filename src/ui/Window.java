@@ -6,6 +6,8 @@ import game.Table;
 import javax.swing.JFrame;
 
 public class Window extends JFrame {
+	
+	private GameCanvas gameCanvas;
 
 	public Window(Table table, GameController gameController) {
 		this.setTitle("LeHearts");
@@ -13,7 +15,12 @@ public class Window extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(new GameCanvas(table, gameController));
+		this.gameCanvas = new GameCanvas(table, gameController);
+        this.setContentPane(gameCanvas);
 		this.setVisible(true);
 	}
+
+	public GameCanvas getGameCanvas() {
+		return this.gameCanvas;
+	}	
 }
