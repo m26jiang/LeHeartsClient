@@ -39,4 +39,8 @@ public class Table extends Observable {
 	public boolean isPlayerTurn(int playerId) {
 		return players[playerId].isPlayerTurn();
 	}
+	
+	public Card[] getCards() {
+		return cards;
+	}
 }

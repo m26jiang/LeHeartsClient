@@ -39,6 +39,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private CardImageHolder cardImageHolder;
 	private CardStackEntity playerCards;
 	private CardStackEntity[] collectedCards;
+	private CardStageEntity cardStage;
 	private GameController gameController;
 	private Map<Card, CardEntity> cardEntityMap;
 	private Table table;
@@ -95,6 +96,8 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 				PLAYER_4_Y);
 		collectedCards[0].setYSpacing(20);
 
+		this.cardStage = new CardStageEntity(table, cardEntityMap, 800, 600);
+		
 		Thread gameThread = new Thread() {
 			@Override
 			public void run() {
@@ -198,6 +201,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		collectedCards[1].draw(g2d);
 		collectedCards[2].draw(g2d);
 		collectedCards[3].draw(g2d);
+		cardStage.draw(g2d);
 	}
 
 	/** This method is called by the repaint method. */
