@@ -19,13 +19,18 @@ public class GameController {
 		this.playerId = playerId;
 	}
 	
+	/** Method to update model when another player plays a card */
 	public void playCard(int serverId, Card card) {
 		int playerId = serverIdToClientId(serverId);
 		table.playCard(playerId, card);
 	}
 	
+	/** Method for player to attempt to play a card */
 	public boolean playCard(Card card) {
-		if (cardPending != null) return false;
+		if (cardPending != null) {
+			return false;
+		}
+		cardPending = card;
 		client.setBuffer("MOVE " + card.toString());
 		return true;
 	}
