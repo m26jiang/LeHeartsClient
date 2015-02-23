@@ -43,4 +43,8 @@ public class Table extends Observable {
 	public Card[] getCards() {
 		return cards;
 	}
+
+	public void playerCollect(int playerId, Card card) {
+		
+	}
 }

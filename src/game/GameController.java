@@ -15,8 +15,7 @@ public class GameController {
 	}
 	
 	public void setPlayerId(int serverId) {
-		int playerId = serverIdToClientId(serverId);
-		this.playerId = playerId;
+		this.playerId = serverId;
 	}
 	
 	/** Method to update model when another player plays a card */
@@ -36,23 +35,13 @@ public class GameController {
 	}
 	
 	public void playersTurn() {
-		table.setPlayerTurn(playerId, true);
-	}
-	
-	public void playersTurn(int serverId) {
-		int playerId = serverIdToClientId(serverId);
-		table.setPlayerTurn(playerId, true);
+		table.setPlayerTurn(0, true);
 	}
 	
 	public void endTurn() {
-		table.setPlayerTurn(playerId, false);
+		table.setPlayerTurn(0, false);
 		table.playCard(0, cardPending);
 		cardPending = null;
-	}
-	
-	public void endTurn(int serverId) {
-		int playerId = serverIdToClientId(serverId);
-		table.setPlayerTurn(playerId, false);
 	}
 
 	public void dealCard(Card card) {
@@ -60,6 +49,10 @@ public class GameController {
 	}
 	
 	private int serverIdToClientId(int serverPlayerId) {
+		System.out.print(serverPlayerId);
+		System.out.print(" : TO : ");
+		System.out.println(((serverPlayerId - playerId + NUM_PLAYERS) % NUM_PLAYERS));
+		
 		return ((serverPlayerId - playerId + NUM_PLAYERS) % NUM_PLAYERS);
 	}
 
@@ -69,5 +62,10 @@ public class GameController {
 
 	public void invalidMove() {
 		cardPending = null;
+	}
+
+	public void playerCollect(int serverId, Card card) {
+		int playerId = serverIdToClientId(serverId);
+		table.playerCollect(playerId, card);
 	}
 }

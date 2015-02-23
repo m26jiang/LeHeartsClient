@@ -50,4 +50,8 @@ public abstract class Player extends Observable implements Observer {
 	public Hand getCollect() {
 		return this.collect;
 	}
+	
+	public void collect(Card card) {
+		collect.insertCard(card);
+	}
 }
