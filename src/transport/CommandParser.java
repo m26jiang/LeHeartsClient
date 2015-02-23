@@ -20,11 +20,10 @@ public class CommandParser {
 			int playerId = Integer.parseInt(ops[1]);
 			game.setPlayerId(playerId);
 		} else if (op.equals("YOUR_TURN")) {
-			System.out.println("Server is requesting move!");
-			return true;
-			// game.playersTurn();
+			game.playersTurn();
+		} else if (op.equals("INVALID_MOVE")) {
+			game.invalidMove();
 		} else if (op.equals("VALID_MOVE")) {
-			System.out.println("End Turn");
 			game.endTurn();
 		} else if (op.equals("MESSAGE")) {
 			System.out.println(ops[1]);

@@ -60,10 +60,14 @@ public class GameController {
 	}
 	
 	private int serverIdToClientId(int serverPlayerId) {
-		return ((serverPlayerId + playerId) % NUM_PLAYERS);
+		return ((serverPlayerId - playerId + NUM_PLAYERS) % NUM_PLAYERS);
 	}
 
 	public void setHttpClient(LeHeartsHTTPClient client) {
 		this.client = client;
+	}
+
+	public void invalidMove() {
+		cardPending = null;
 	}
 }
