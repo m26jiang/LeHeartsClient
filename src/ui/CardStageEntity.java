@@ -53,11 +53,11 @@ public class CardStageEntity implements Observer {
 		}
 	}
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
+	public void update() {
 		Card[] tableCards = table.getCards();
 		for (int i = 0; i < tableCards.length; i++) {
 			cards[i] = null;
+			
 			CardEntity cardEntity = cardEntityMap.get(tableCards[i]);
 			if (cardEntity == null) {
 				continue;
@@ -68,4 +68,27 @@ public class CardStageEntity implements Observer {
 			cards[i] = cardEntity;
 		}
 	}
+	
+	@Override
+	public void update(Observable arg0, Object arg1) {
+//		System.out.println("Updating Staged Cards");
+//		Card[] tableCards = table.getCards();
+//		for (int i = 0; i < tableCards.length; i++) {
+//			cards[i] = null;
+//			if (tableCards[i] != null) {
+//				System.out.println("Table[" + i + "]: " + tableCards[i].toString());
+//			}			
+//			
+//			CardEntity cardEntity = cardEntityMap.get(tableCards[i]);
+//			if (cardEntity == null) {
+//				continue;
+//			}
+//			cardEntity.setX((int) cardLocations[i].getX());
+//			cardEntity.setY((int) cardLocations[i].getY());
+//			cardEntity.setVisible(true);
+//			cards[i] = cardEntity;
+//		}
+	}
 }
+
+

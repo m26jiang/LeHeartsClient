@@ -93,8 +93,7 @@ public class CardStackEntity implements Observer {
 		return null;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {		
+	public void update() {
 		synchronized (cards) {
 			Iterator<CardEntity> it = cards.iterator();
 			while (it.hasNext()) {
@@ -117,6 +116,32 @@ public class CardStackEntity implements Observer {
 				cardCount++;
 			}
 		}
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {		
+//		synchronized (cards) {
+//			Iterator<CardEntity> it = cards.iterator();
+//			while (it.hasNext()) {
+//				CardEntity cardEntity = it.next();
+//				cardEntity.setVisible(false);
+//			}
+//			cards.clear();
+//			Iterator<Card> it2 = hand.getCards().iterator();
+//			
+//			int cardCount = 0;
+//			while (it2.hasNext()) {
+//				Card card = it2.next();
+//				CardEntity cardEntity = cardEntityMap.get(card);
+//				if (cardEntity != null) {
+//					cards.add(cardEntity);
+//					cardEntity.setX(x + xSpacing * cardCount);
+//					cardEntity.setY(y + ySpacing * cardCount);
+//					cardEntity.setVisible(true);
+//				}
+//				cardCount++;
+//			}
+//		}
 	}
 	
 	public int getX() {

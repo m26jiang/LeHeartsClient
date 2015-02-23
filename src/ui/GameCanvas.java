@@ -47,9 +47,11 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private JTextArea textArea;
 
 	private final static int BASE_X = 250, BASE_Y = 400;
-	private final static int PLAYER_2_X = 50, PLAYER_2_Y = 50;
+	private final static int CARD_WIDTH = 71;
+	private final static int CARD_HEIGHT = 96;
+	private final static int PLAYER_2_X = 800 - CARD_WIDTH - 50, PLAYER_2_Y = 50;
 	private final static int PLAYER_3_X = 250, PLAYER_3_Y = 50;
-	private final static int PLAYER_4_X = 500, PLAYER_4_Y = 50;
+	private final static int PLAYER_4_X = 50, PLAYER_4_Y = 50;
 
 	private final static long SEC_IN_NANOSEC = 1000000000L;
 	private final static long MILLISEC_IN_NANOSEC = 1000000L;
@@ -77,24 +79,24 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		playerCards.setGameController(gameController);
 
 		this.collectedCards[0] = new CardStackEntity(
-				table.players[0].getCollect(), cardEntityMap, BASE_X,
+				table.players[0].getCollect(), cardEntityMap, 50,
 				BASE_Y - 100);
 		collectedCards[0].setXSpacing(20);
 
 		this.collectedCards[1] = new CardStackEntity(
 				table.players[1].getCollect(), cardEntityMap, PLAYER_2_X,
 				PLAYER_2_Y);
-		collectedCards[0].setYSpacing(20);
+		collectedCards[1].setYSpacing(20);
 
 		this.collectedCards[2] = new CardStackEntity(
 				table.players[2].getCollect(), cardEntityMap, PLAYER_3_X,
 				PLAYER_3_Y);
-		collectedCards[0].setXSpacing(20);
+		collectedCards[2].setXSpacing(20);
 
 		this.collectedCards[3] = new CardStackEntity(
 				table.players[3].getCollect(), cardEntityMap, PLAYER_4_X,
 				PLAYER_4_Y);
-		collectedCards[0].setYSpacing(20);
+		collectedCards[3].setYSpacing(20);
 
 		this.cardStage = new CardStageEntity(table, cardEntityMap, 800, 600);
 		
@@ -143,6 +145,13 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		while (true) {
 			beginTime = System.nanoTime();
 
+			playerCards.update();
+			collectedCards[0].update();
+			collectedCards[1].update();
+			collectedCards[2].update();
+			collectedCards[3].update();
+			cardStage.update();
+			
 			repaint();
 
 			timeTaken = System.nanoTime() - beginTime;
