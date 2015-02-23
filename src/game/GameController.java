@@ -49,10 +49,6 @@ public class GameController {
 	}
 	
 	private int serverIdToClientId(int serverPlayerId) {
-		System.out.print(serverPlayerId);
-		System.out.print(" : TO : ");
-		System.out.println(((serverPlayerId - playerId + NUM_PLAYERS) % NUM_PLAYERS));
-		
 		return ((serverPlayerId - playerId + NUM_PLAYERS) % NUM_PLAYERS);
 	}
 
