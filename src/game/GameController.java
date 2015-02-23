@@ -64,4 +64,8 @@ public class GameController {
 		int playerId = serverIdToClientId(serverId);
 		table.playerCollect(playerId, card);
 	}
+
+	public void roundEnded() {
+		table.roundEnded();
+	}
 }

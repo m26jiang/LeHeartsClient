@@ -5,6 +5,7 @@ import java.util.Observable;
 public class Table extends Observable {
 	private Card [] cards;
 	public Player [] players;
+	private boolean shouldClearTable = false;
 	
 	public Table() {
 		cards = new Card[4];
@@ -21,6 +22,9 @@ public class Table extends Observable {
 	}
 	
 	public void playCard(int playerId, Card card) {
+		if (shouldClearTable) {
+			clearTable();
+		}
 		players[playerId].playCard(card);
 		cards[playerId] = card;
 		this.notifyObs();
@@ -45,6 +49,18 @@ public class Table extends Observable {
 	}
 
 	public void playerCollect(int playerId, Card card) {
-		
+		players[playerId].collect(card);
+	}
+
+	public void roundEnded() {
+		shouldClearTable = true;
+	}
+	
+	private void clearTable() {
+		cards[0] = null;
+		cards[1] = null;
+		cards[2] = null;
+		cards[3] = null;
+		shouldClearTable = false;
 	}
 }

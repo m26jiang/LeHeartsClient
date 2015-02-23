@@ -27,6 +27,8 @@ public class CommandParser {
 			game.endTurn();
 		} else if (op.equals("MESSAGE")) {
 			System.out.println(ops[1]);
+		} else if (op.equals("ROUND_ENDED")) {
+			game.roundEnded();
 		} else if (op.equals("PLAYER_COLLECTED")) {
 			String [] temp = ops[1].split(" : ");
 			int playerId = Integer.parseInt(temp[0]);
