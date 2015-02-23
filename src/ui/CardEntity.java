@@ -13,9 +13,7 @@ public class CardEntity {
 	private int y;
 	private int width;
 	private int height;
-	private int rotation;
 	private boolean isSelected;
-
 	private boolean isVisible;
 	private boolean isFaceDown;
 	private BufferedImage image;
@@ -29,7 +27,6 @@ public class CardEntity {
 		this.isVisible = false;
 		this.isFaceDown = false;
 		this.cardValue = null;
-		this.rotation = 0;
 	}
 
 	public CardEntity(Card cardValue, BufferedImage image) {
@@ -41,7 +38,6 @@ public class CardEntity {
 		this.image = image;
 		this.width = image.getWidth();
 		this.height = image.getHeight();
-		this.rotation = 0;
 	}
 	
 	public boolean isSelected() {
@@ -122,20 +118,8 @@ public class CardEntity {
 		this.cardValue = cardValue;
 	}
 
-	public int getRotation() {
-		return rotation;
-	}
-
-	public void setRotation(int rotation) {
-		this.rotation = rotation;
-	}
-
 	public void draw(Graphics2D g2d) {
-		AffineTransform tx = AffineTransform.getQuadrantRotateInstance(
-				rotation, 0, image.getHeight());
-		AffineTransformOp op = new AffineTransformOp(tx,
-				AffineTransformOp.TYPE_BICUBIC);
-		g2d.drawImage(op.filter(image, null), x, y, null);
+		g2d.drawImage(image, x, y, null);
 	}
 
 	public boolean collides(int x, int y) {
