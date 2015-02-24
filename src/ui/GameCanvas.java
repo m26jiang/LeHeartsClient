@@ -21,6 +21,7 @@ import java.util.Observer;
 import java.util.Set;
 
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -47,6 +48,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private Table table;
 	private Font uiFont;
 	private Point[] playerNameLocations;
+	private boolean playerNameRetrieved;
 
 	private JTextArea textArea;
 	private JScrollPane scrollPane;
@@ -165,6 +167,12 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 			collectedCards[2].update();
 			collectedCards[3].update();
 			cardStage.update();
+			
+			if (!playerNameRetrieved && !table.players[0].getHand().getCards().isEmpty()) {
+				String name = JOptionPane.showInputDialog("Enter your name:");
+				playerNameRetrieved = true;
+				gameController.requestName(name);
+			}
 			
 			repaint();
 
