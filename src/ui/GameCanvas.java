@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -43,9 +45,12 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private GameController gameController;
 	private Map<Card, CardEntity> cardEntityMap;
 	private Table table;
+	private Font uiFont;
+	private Point[] playerNameLocations;
 
 	private JTextArea textArea;
 
+	// TODO: Try to clean up all these unnecessary constants
 	private final static int BASE_X = 250, BASE_Y = 400;
 	private final static int CARD_WIDTH = 71;
 	private final static int CARD_HEIGHT = 96;
@@ -116,6 +121,13 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		this.setBackground(new Color(0x00, 0x8a, 0x2e));
 		this.addKeyListener(this);
 		this.addMouseListener(this);
+		
+		playerNameLocations = new Point[4];
+		playerNameLocations[0] = new Point(this.getWidth() / 2, this.getHeight() - 40);
+		playerNameLocations[1] = new Point(this.getWidth() - 100, 20);
+		playerNameLocations[2] = new Point(this.getWidth() / 2, 20);
+		playerNameLocations[3] = new Point(20, 20);
+		
 		this.textArea = new JTextArea(5, 100) {
 			@Override public void setBorder(Border border) {
 				// Do nothing
@@ -133,6 +145,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		textArea.setBackground(Color.BLACK);
 		textArea.setForeground(Color.WHITE);
 		textArea.setCaretColor(Color.WHITE);
+		uiFont = new Font("Arial", Font.PLAIN, 16);
 	}
 
 	/**
@@ -211,6 +224,18 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		collectedCards[2].draw(g2d);
 		collectedCards[3].draw(g2d);
 		cardStage.draw(g2d);
+		
+		g2d.setColor(Color.BLACK);
+		g2d.setFont(uiFont);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		
+		for (int i = 0; i < table.players.length; i++) {
+			if (table.players[i].getUserId() != null) {
+				g2d.drawString(table.players[i].getUserId(), playerNameLocations[i].x, playerNameLocations[i].y);
+			}
+		}
+		
 	}
 
 	/** This method is called by the repaint method. */
