@@ -57,7 +57,8 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private final static int BASE_X = 250, BASE_Y = 400;
 	private final static int CARD_WIDTH = 71;
 	private final static int CARD_HEIGHT = 96;
-	private final static int PLAYER_2_X = 800 - CARD_WIDTH - 50, PLAYER_2_Y = 50;
+	private final static int PLAYER_2_X = 800 - CARD_WIDTH - 50,
+			PLAYER_2_Y = 50;
 	private final static int PLAYER_3_X = 250, PLAYER_3_Y = 50;
 	private final static int PLAYER_4_X = 50, PLAYER_4_Y = 50;
 
@@ -76,7 +77,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		this.gameController = gameController;
 		this.cardEntityMap = new HashMap<Card, CardEntity>();
 		this.playerNameRetrieved = false;
-		
+
 		initImages();
 		initCardEntities();
 
@@ -88,8 +89,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		playerCards.setGameController(gameController);
 
 		this.collectedCards[0] = new CardStackEntity(
-				table.players[0].getCollect(), cardEntityMap, 50,
-				BASE_Y - 100);
+				table.players[0].getCollect(), cardEntityMap, 50, BASE_Y - 100);
 		collectedCards[0].setXSpacing(20);
 
 		this.collectedCards[1] = new CardStackEntity(
@@ -108,7 +108,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		collectedCards[3].setYSpacing(20);
 
 		this.cardStage = new CardStageEntity(table, cardEntityMap, 800, 600);
-		
+
 		Thread gameThread = new Thread() {
 			@Override
 			public void run() {
@@ -125,23 +125,37 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		this.setBackground(new Color(0x00, 0x8a, 0x2e));
 		this.addKeyListener(this);
 		this.addMouseListener(this);
-		
+
 		playerNameLocations = new Point[4];
-		playerNameLocations[0] = new Point(this.getWidth() / 2, this.getHeight() - 40);
-		playerNameLocations[1] = new Point(this.getWidth() - 100, 20);
-		playerNameLocations[2] = new Point(this.getWidth() / 2, 20);
+		playerNameLocations[0] = new Point(800 / 2, 600 - 40);
+		playerNameLocations[1] = new Point(800 - 100, 20);
+		playerNameLocations[2] = new Point(800 / 2, 20);
 		playerNameLocations[3] = new Point(20, 20);
-		
+
 		this.textArea = new JTextArea(5, 100) {
-			@Override public void setBorder(Border border) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void setBorder(Border border) {
 				// Do nothing
 			}
 		};
-		this.scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER) {
-			@Override public void setBorder(Border border) {
+		this.scrollPane = new JScrollPane(textArea,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
+			@Override
+			public void setBorder(Border border) {
 				// Do nothing
 			}
-		};		
+		};
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(scrollPane);
 		Font font = new Font("Consolas", Font.PLAIN, 11);
@@ -168,13 +182,14 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 			collectedCards[2].update();
 			collectedCards[3].update();
 			cardStage.update();
-			
-			if (!playerNameRetrieved && !table.players[0].getHand().getCards().isEmpty()) {
+
+			if (!playerNameRetrieved
+					&& !table.players[0].getHand().getCards().isEmpty()) {
 				String name = JOptionPane.showInputDialog("Enter your name:");
 				playerNameRetrieved = true;
 				gameController.requestName(name);
 			}
-			
+
 			repaint();
 
 			timeTaken = System.nanoTime() - beginTime;
@@ -234,18 +249,22 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		collectedCards[2].draw(g2d);
 		collectedCards[3].draw(g2d);
 		cardStage.draw(g2d);
-		
+
 		g2d.setColor(Color.BLACK);
 		g2d.setFont(uiFont);
-		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 		
 		for (int i = 0; i < table.players.length; i++) {
 			if (table.players[i].getUserId() != null) {
-				g2d.drawString(table.players[i].getUserId(), playerNameLocations[i].x, playerNameLocations[i].y);
+				g2d.drawString(table.players[i].getUserId(),
+						(int) playerNameLocations[i].getX(),
+						(int) playerNameLocations[i].getY());
 			}
 		}
-		
+
 	}
 
 	/** This method is called by the repaint method. */
