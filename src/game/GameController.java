@@ -68,4 +68,9 @@ public class GameController {
 	public void roundEnded() {
 		table.roundEnded();
 	}
+	
+	public void setUserId(int serverId, String userId) {
+		int playerId = serverIdToClientId(serverId);
+		table.players[playerId].setUserId(userId);
+	}
 }

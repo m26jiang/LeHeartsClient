@@ -64,7 +64,11 @@ public class CommandParser {
 			Rank rank = Rank.fromInt(rankStr);
 			Card card = new Card(suit, rank);
 			game.dealCard(card);
-		}		
+		} else if (op.equals("PLAYER_NAME")) {
+			String [] temp = ops[1].split(" : ");
+			int playerId = Integer.parseInt(temp[0]);
+			game.setUserId(playerId, temp[1]);
+		}
 		return true;
 	}
 }

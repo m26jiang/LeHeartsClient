@@ -57,6 +57,10 @@ public class LeHeartsHTTPClient {
 		}
 	}
 	
+	public void requestName(String name) {
+		output.println("SET_PLAYER_NAME " + name);
+	}
+	
 	public void setGameCanvas(GameCanvas gameCanvas) {
 		this.gameCanvas = gameCanvas;
 	}
