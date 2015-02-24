@@ -75,7 +75,8 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		this.table.addObserver(this);
 		this.gameController = gameController;
 		this.cardEntityMap = new HashMap<Card, CardEntity>();
-
+		this.playerNameRetrieved = false;
+		
 		initImages();
 		initCardEntities();
 
