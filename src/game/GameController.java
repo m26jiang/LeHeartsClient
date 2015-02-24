@@ -73,4 +73,8 @@ public class GameController {
 		int playerId = serverIdToClientId(serverId);
 		table.players[playerId].setUserId(userId);
 	}
+
+	public void requestName(String name) {
+		client.requestName(name);		
+	}
 }

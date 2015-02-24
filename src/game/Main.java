@@ -4,7 +4,6 @@ import transport.CommandParser;
 import transport.LeHeartsHTTPClient;
 import ui.Window;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class Main {
@@ -14,7 +13,7 @@ public class Main {
 	private static CommandParser parser;
 	private static LeHeartsHTTPClient client;
 	private static Window window;
-	private static final String serverIP = "54.149.107.164";
+	private static final String serverIP = "52.10.214.35";
 	private static final int serverPort = 9001;
 
 	public static void main(String[] args) throws Exception {
@@ -34,11 +33,6 @@ public class Main {
 				window = new Window(table, game);
 			}
 		});
-
-		client.setGameCanvas(window.getGameCanvas());
-		
-		String name = JOptionPane.showInputDialog("Enter your name:");
-		client.requestName(name);
 		
 		client.play();
 	}
