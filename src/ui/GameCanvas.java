@@ -49,6 +49,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private Point[] playerNameLocations;
 
 	private JTextArea textArea;
+	private JScrollPane scrollPane;
 
 	// TODO: Try to clean up all these unnecessary constants
 	private final static int BASE_X = 250, BASE_Y = 400;
@@ -133,13 +134,13 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 				// Do nothing
 			}
 		};
-		JScrollPane jsp = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER) {
+		this.scrollPane = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER) {
 			@Override public void setBorder(Border border) {
 				// Do nothing
 			}
 		};		
-		jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(jsp);
+		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+		add(scrollPane);
 		Font font = new Font("Consolas", Font.PLAIN, 11);
 		textArea.setFont(font);
 		textArea.setBackground(Color.BLACK);
@@ -248,6 +249,10 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_BACK_QUOTE) {
+			textArea.setVisible(!textArea.isVisible());
+			scrollPane.setVisible(!scrollPane.isVisible());
+		}
 	}
 
 	@Override
