@@ -128,41 +128,10 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 
 		playerNameLocations = new Point[4];
 		playerNameLocations[0] = new Point(800 / 2, 600 - 40);
-		playerNameLocations[1] = new Point(800 - 100, 20);
+		playerNameLocations[1] = new Point(800 - 200, 20);
 		playerNameLocations[2] = new Point(800 / 2, 20);
 		playerNameLocations[3] = new Point(20, 20);
 
-		this.textArea = new JTextArea(5, 100) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setBorder(Border border) {
-				// Do nothing
-			}
-		};
-		this.scrollPane = new JScrollPane(textArea,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER) {
-			/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setBorder(Border border) {
-				// Do nothing
-			}
-		};
-		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-		add(scrollPane);
-		Font font = new Font("Consolas", Font.PLAIN, 11);
-		textArea.setFont(font);
-		textArea.setBackground(Color.BLACK);
-		textArea.setForeground(Color.WHITE);
-		textArea.setCaretColor(Color.WHITE);
 		uiFont = new Font("Arial", Font.PLAIN, 16);
 	}
 
@@ -277,10 +246,6 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_BACK_QUOTE) {
-			textArea.setVisible(!textArea.isVisible());
-			scrollPane.setVisible(!scrollPane.isVisible());
-		}
 	}
 
 	@Override
@@ -316,8 +281,5 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	public void update(Observable o, Object arg) {
 	}
 
-	public void outputText(String s) {
-		textArea.append(s + "\n");
-		textArea.setCaretPosition(textArea.getDocument().getLength());
-	}
+	public void outputText(String s) {}
 }
