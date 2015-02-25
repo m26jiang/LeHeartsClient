@@ -29,10 +29,7 @@ public class LeHeartsHTTPClient {
 		try {   
 			while (true) {
 				if (input.ready()) {
-					response = input.readLine();
-					if (gameCanvas != null) {
-						gameCanvas.outputText(response);
-					}					
+					response = input.readLine();	
 				} else {
 					response = null;
 				}
@@ -61,13 +58,8 @@ public class LeHeartsHTTPClient {
 		output.println("SET_PLAYER_NAME " + name);
 	}
 	
-	public void setGameCanvas(GameCanvas gameCanvas) {
-		this.gameCanvas = gameCanvas;
-	}
-	
 	public void setBuffer(String buf) {
 		if (gameCanvas != null) {
-			gameCanvas.outputText(buf);
 		}
 		outputBuffer = buf;
 	}

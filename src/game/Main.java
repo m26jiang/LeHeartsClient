@@ -20,8 +20,7 @@ public class Main {
 		
 		table = new Table();
 		game = new GameController(table);
-		parser = new CommandParser(game);
-		
+		parser = new CommandParser(game);		
 		client = new LeHeartsHTTPClient(parser, serverIP, serverPort);
 		game.setHttpClient(client);
 		

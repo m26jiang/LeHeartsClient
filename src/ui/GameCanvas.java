@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -12,32 +11,20 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
 
-import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.border.Border;
 
-import transport.LeHeartsHTTPClient;
 import game.Card;
 import game.GameController;
-import game.Hand;
-import game.Player;
 import game.Rank;
 import game.Suit;
 import game.Table;
 
-public class GameCanvas extends JPanel implements KeyListener, MouseListener,
-		Observer {
+@SuppressWarnings("serial")
+public class GameCanvas extends JPanel implements KeyListener, MouseListener {
 
 	private CardImageHolder cardImageHolder;
 	private CardStackEntity playerCards;
@@ -48,67 +35,38 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	private Table table;
 	private Font uiFont;
 	private Point[] playerNameLocations;
-	private boolean playerNameRetrieved;
-
-	private JTextArea textArea;
-	private JScrollPane scrollPane;
-
+	private boolean nameRequestSent;
+	private String playerName;
+	
 	// TODO: Try to clean up all these unnecessary constants
-	private final static int BASE_X = 250, BASE_Y = 400;
+	private final static int GAME_WIDTH = 800;
+	private final static int GAME_HEIGHT = 600;
 	private final static int CARD_WIDTH = 71;
 	private final static int CARD_HEIGHT = 96;
-	private final static int PLAYER_2_X = 800 - CARD_WIDTH - 50,
-			PLAYER_2_Y = 50;
+	private final static int PLAYER_1_X = 250, PLAYER_1_Y = GAME_HEIGHT - CARD_HEIGHT - 50;
+	private final static int PLAYER_2_X = GAME_WIDTH - CARD_WIDTH - 50, PLAYER_2_Y = 50;
 	private final static int PLAYER_3_X = 250, PLAYER_3_Y = 50;
 	private final static int PLAYER_4_X = 50, PLAYER_4_Y = 50;
-
 	private final static long SEC_IN_NANOSEC = 1000000000L;
 	private final static long MILLISEC_IN_NANOSEC = 1000000L;
 	private final static int GAME_FPS = 30;
 	private final static long GAME_UPDATE_PERIOD = SEC_IN_NANOSEC / GAME_FPS;
 	private final static int GAME_THREAD_SLEEP_MIN = 10;
-
+	
 	public GameCanvas(Table table, GameController gameController) {
 
 		initPanel();
 
 		this.table = table;
-		this.table.addObserver(this);
 		this.gameController = gameController;
 		this.cardEntityMap = new HashMap<Card, CardEntity>();
-		this.playerNameRetrieved = false;
+		this.nameRequestSent = false;
 
 		initImages();
-		initCardEntities();
+		initEntities();
 
-		this.playerCards = new CardStackEntity(table.players[0].getHand(),
-				cardEntityMap, BASE_X, BASE_Y);
-		playerCards.setClickable(true);
-		collectedCards = new CardStackEntity[4];
-		playerCards.setXSpacing(20);
-		playerCards.setGameController(gameController);
-
-		this.collectedCards[0] = new CardStackEntity(
-				table.players[0].getCollect(), cardEntityMap, 50, BASE_Y - 100);
-		collectedCards[0].setXSpacing(20);
-
-		this.collectedCards[1] = new CardStackEntity(
-				table.players[1].getCollect(), cardEntityMap, PLAYER_2_X,
-				PLAYER_2_Y);
-		collectedCards[1].setYSpacing(20);
-
-		this.collectedCards[2] = new CardStackEntity(
-				table.players[2].getCollect(), cardEntityMap, PLAYER_3_X,
-				PLAYER_3_Y);
-		collectedCards[2].setXSpacing(20);
-
-		this.collectedCards[3] = new CardStackEntity(
-				table.players[3].getCollect(), cardEntityMap, PLAYER_4_X,
-				PLAYER_4_Y);
-		collectedCards[3].setYSpacing(20);
-
-		this.cardStage = new CardStageEntity(table, cardEntityMap, 800, 600);
-
+		playerName = JOptionPane.showInputDialog("Enter your name:");
+		
 		Thread gameThread = new Thread() {
 			@Override
 			public void run() {
@@ -127,9 +85,9 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		this.addMouseListener(this);
 
 		playerNameLocations = new Point[4];
-		playerNameLocations[0] = new Point(800 / 2, 600 - 40);
-		playerNameLocations[1] = new Point(800 - 200, 20);
-		playerNameLocations[2] = new Point(800 / 2, 20);
+		playerNameLocations[0] = new Point(GAME_WIDTH / 2, GAME_HEIGHT - 40);
+		playerNameLocations[1] = new Point(GAME_WIDTH - 200, 20);
+		playerNameLocations[2] = new Point(GAME_WIDTH / 2, 20);
 		playerNameLocations[3] = new Point(20, 20);
 
 		uiFont = new Font("Arial", Font.PLAIN, 16);
@@ -152,11 +110,16 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 			collectedCards[3].update();
 			cardStage.update();
 
-			if (!playerNameRetrieved
-					&& !table.players[0].getHand().getCards().isEmpty()) {
-				String name = JOptionPane.showInputDialog("Enter your name:");
-				playerNameRetrieved = true;
-				gameController.requestName(name);
+			/**
+			 * Apparently I have to wait for the server to deal all of the
+			 * cards in order to be able to request a change of name...
+			 * 
+			 * Why do you do this Chung?
+			 */
+			if (!nameRequestSent
+					&& !table.players[0].getHand().getCards().isEmpty()) {				
+				nameRequestSent = true;
+				gameController.requestName(playerName);
 			}
 
 			repaint();
@@ -181,7 +144,7 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 		cardImageHolder = new CardImageHolder();
 	}
 
-	private void initCardEntities() {
+	private void initEntities() {
 		for (int i = 0; i < Suit.values().length; i++) {
 			Suit suit = Suit.values()[i];
 			for (int j = 0; j < Rank.values().length; j++) {
@@ -209,6 +172,51 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 				}
 			}
 		}
+		
+		this.playerCards = new CardStackEntity(
+				table.players[0].getHand(),
+				cardEntityMap, 
+				PLAYER_1_X, 
+				PLAYER_1_Y);
+		
+		playerCards.setClickable(true);
+		collectedCards = new CardStackEntity[4];
+		playerCards.setXSpacing(20);
+		playerCards.setGameController(gameController);
+
+		this.collectedCards[0] = new CardStackEntity(
+				table.players[0].getCollect(), 
+				cardEntityMap, 
+				50, 
+				PLAYER_1_Y - 50 - CARD_HEIGHT);
+		collectedCards[0].setXSpacing(20);
+
+		this.collectedCards[1] = new CardStackEntity(
+				table.players[1].getCollect(), 
+				cardEntityMap, 
+				PLAYER_2_X,
+				PLAYER_2_Y);
+		collectedCards[1].setYSpacing(20);
+
+		this.collectedCards[2] = new CardStackEntity(
+				table.players[2].getCollect(),
+				cardEntityMap, 
+				PLAYER_3_X,
+				PLAYER_3_Y);
+		collectedCards[2].setXSpacing(20);
+
+		this.collectedCards[3] = new CardStackEntity(
+				table.players[3].getCollect(),
+				cardEntityMap,
+				PLAYER_4_X,
+				PLAYER_4_Y);
+		collectedCards[3].setYSpacing(20);
+
+		this.cardStage = new CardStageEntity(
+				table, 
+				cardEntityMap, 
+				GAME_WIDTH, 
+				GAME_HEIGHT);
 	}
 
 	public void draw(Graphics2D g2d) {
@@ -276,10 +284,4 @@ public class GameCanvas extends JPanel implements KeyListener, MouseListener,
 	@Override
 	public void mouseExited(MouseEvent e) {
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-	}
-
-	public void outputText(String s) {}
 }
